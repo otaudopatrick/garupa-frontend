@@ -4,45 +4,6 @@
 }
 
 
-/* input */
-
-.form-input-text{
-  position: relative;
-  overflow: hidden;
-  width: 400px;
-  height: 50px;
-  border-radius: 25px;
-  background-color: #E6E6E6;
-  margin-bottom: 10px;
-}
-
-.form-input-text input{
-  width: 100%;
-  height: 100%;
-  background-color: #E6E6E6;
-  border-radius: 25px;
-  padding-left: 55px;
-  font-size: 0.938rem;
-  font-weight: bold;
-  color: #666666;
-}
-.form-input-text svg{
-  position: absolute;
-  transform: translateY(-50%);
-  z-index: 10;
-  top: 50%;
-}
-.form-input-text svg:first-child{  
-  left: 35px; 
-}
-
-.form-input-text svg:last-child{
-  right: 35px;
-  opacity: 0;
-}
-.form-input-text svg:last-child.active{
-  opacity: 1;
-}
 
 /* button */
 .login-button{

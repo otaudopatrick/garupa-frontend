@@ -1,33 +1,45 @@
-import React, { useState } from "react";
+import React from "react";
+
 import "./login-styles.css"
-import {BsEnvelopeFill,BsExclamationCircleFill, BsLockFill, BsArrowRight} from "react-icons/bs"
 
+import { BsArrowRight } from "react-icons/bs"
+import LoginForm from "./LoginForm";
+import { LoginFormValues } from "./LoginForm/LoginForm";
+import { LoginService } from "../../services/login-service";
+import axios from "axios";
+import { notifyError } from "../../utils/toast";
+import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+
+export interface LoginErrorResponse {
+  error: string;
+};
 export const Login = () => {
+  const navigate = useNavigate();
+  const handleSubmit = async (loginValues:LoginFormValues) => {
+    console.log(loginValues)
+    try {
+      await LoginService.handle(loginValues)
+      navigate('/')
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const message = (error.response?.data as LoginErrorResponse).error
+        notifyError(message)
+      }
+    }
+  }
 
-  const handleFormSubmit = (event:React.FormEvent<HTMLFormElement> ):void => {
-    event.preventDefault()
-  } 
   return (
     <div className="page">
-        <div className="container">
-          <div className="wrapper-container">
-            <h1 className="page-title">Login</h1>
-            <form onSubmit={handleFormSubmit}>
-              <div className="form-input-text">
-                <BsEnvelopeFill color="#666666"/>
-                <input type="text" placeholder="Email" />
-                <BsExclamationCircleFill color="#c80000"/>
-              </div>
-              <div className="form-input-text">
-                <BsLockFill color="#666666"/>
-                <input type="password" placeholder="Senha"/>
-                <BsExclamationCircleFill color="#c80000"/>
-              </div>
-              <button type="submit" className="login-button">login</button>
-            </form>
-            <a href="#" className="login-link">Criar conta <BsArrowRight/></a>
-          </div>
+      <div className="container">
+        <div className="wrapper-container">
+          <h1 className="page-title">Login</h1>
+          <LoginForm onSubmit={handleSubmit} submiting={false}/>
+          <ToastContainer/>
+          <a  className="login-link" onClick={()=> navigate("/criar-conta")}>Criar conta <BsArrowRight /></a>
         </div>
+      </div>
     </div>
   )
 }
